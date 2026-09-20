@@ -3,7 +3,7 @@ name: Deploy Backend to AWS EC2
 on:
   push:
     branches:
-      - backend  # Ensure karein ki aap 'backend' branch par hi push kar rahe hain
+      - beckend  # Ensure karein ki aap 'backend' branch par hi push kar rahe hain
 
 jobs:
   deploy:
@@ -21,7 +21,7 @@ jobs:
             cd /var/www/beckend/restaurant2
 
             # 2. Latest code pull karein
-            git pull origin backend
+            git pull origin beckend
 
             # 3. Dependencies install karein
             npm install
