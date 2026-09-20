@@ -1,0 +1,33 @@
+name: Deploy Backend to AWS EC2
+
+on:
+  push:
+    branches:
+      - backend  # Ensure karein ki aap 'backend' branch par hi push kar rahe hain
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to Server via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            # 1. Sahi directory mein jayein (Screenshot ke hisaab se)
+            cd /var/www/beckend/restaurant2
+
+            # 2. Latest code pull karein
+            git pull origin backend
+
+            # 3. Dependencies install karein
+            npm install
+
+            # 4. Agar build step hai toh run karein (Agar project TypeScript nahi hai toh ise hata dein)
+            npm run build
+
+            # 5. PM2 process ko restart karein (Naam 'restaurant-api' hona chahiye)
+            pm2 restart restaurant-api || pm2 start dist/main.js --name restaurant-api
