@@ -1,12 +1,11 @@
 import type { Metadata, Viewport } from 'next';
-import localFont from 'next/font/local';
+import { Inter } from 'next/font/google';
 import './globals.css';
 import { CartProvider } from '../context/CartContext';
 
-const inter = localFont({
-  src: '../public/fonts/Inter-Variable.woff2',
+const inter = Inter({
+  subsets: ['latin'],
   display: 'swap',
-  variable: '--font-inter',
 });
 
 export const metadata: Metadata = {
@@ -26,28 +25,13 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-// Force dynamic rendering so process.env is read at runtime (not cached from build)
-export const dynamic = 'force-dynamic';
-
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const envConfig = {
-    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || '',
-  };
-
   return (
     <html lang="en" className={inter.className}>
-      <head>
-        <script
-          id="server-env"
-          dangerouslySetInnerHTML={{
-            __html: `window.__ENV__ = ${JSON.stringify(envConfig)};`,
-          }}
-        />
-      </head>
       <body className="min-h-screen bg-[#f4f7ef] text-[#17251c] antialiased">
         <CartProvider>{children}</CartProvider>
       </body>
