@@ -1,11 +1,12 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter } from 'next/font/google';
+import localFont from 'next/font/local';
 import './globals.css';
 import { CartProvider } from '../context/CartContext';
 
-const inter = Inter({
-  subsets: ['latin'],
+const inter = localFont({
+  src: '../public/fonts/Inter-Variable.woff2',
   display: 'swap',
+  variable: '--font-inter',
 });
 
 export const metadata: Metadata = {
