@@ -30,8 +30,20 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const envConfig = {
+    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || '',
+  };
+
   return (
     <html lang="en" className={inter.className}>
+      <head>
+        <script
+          id="server-env"
+          dangerouslySetInnerHTML={{
+            __html: `window.__ENV__ = ${JSON.stringify(envConfig)};`,
+          }}
+        />
+      </head>
       <body className="min-h-screen bg-[#f4f7ef] text-[#17251c] antialiased">
         <CartProvider>{children}</CartProvider>
       </body>

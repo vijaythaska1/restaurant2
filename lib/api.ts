@@ -1,6 +1,32 @@
 import { Category, CreateOrderPayload, OrderRecord, Product } from '../types';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+/**
+ * Resolves the backend API base URL from runtime environment (window.__ENV__)
+ * or build-time environment variable (process.env.NEXT_PUBLIC_API_URL).
+ * Strips any trailing slashes.
+ */
+export function getApiBaseUrl(): string {
+  if (typeof window !== 'undefined' && (window as any).__ENV__?.NEXT_PUBLIC_API_URL) {
+    const runtimeUrl = ((window as any).__ENV__.NEXT_PUBLIC_API_URL as string).trim();
+    if (runtimeUrl) return runtimeUrl.replace(/\/+$/, '');
+  }
+  const buildUrl = (process.env.NEXT_PUBLIC_API_URL || '').trim();
+  if (buildUrl) {
+    return buildUrl.replace(/\/+$/, '');
+  }
+  return '';
+}
+
+/** Formats endpoint with API base URL */
+function apiUrl(path: string): string {
+  const base = getApiBaseUrl();
+  const cleanPath = path.startsWith('/') ? path : `/${path}`;
+  if (!base && typeof window !== 'undefined') {
+    console.error(`[API Error] NEXT_PUBLIC_API_URL is not set in .env! Unable to reach: ${cleanPath}`);
+  }
+  return `${base}${cleanPath}`;
+}
+
 const FETCH_TIMEOUT_MS = 15000;
 
 /** Creates a fetch request with an AbortController timeout */
@@ -28,7 +54,7 @@ function getAdminHeaders(adminKey?: string): Record<string, string> {
 
 export async function getCategories(): Promise<Category[]> {
   try {
-    const res = await fetchWithTimeout(`${API_BASE_URL}/categories`, {
+    const res = await fetchWithTimeout(apiUrl('/categories'), {
       headers: { 'Content-Type': 'application/json' },
       cache: 'no-store',
     });
@@ -47,7 +73,8 @@ export async function getProducts(cat?: string, search?: string): Promise<Produc
     if (cat && cat !== 'all') params.append('cat', cat);
     if (search && search.trim()) params.append('search', search.trim());
 
-    const res = await fetchWithTimeout(`${API_BASE_URL}/products?${params.toString()}`, {
+    const queryString = params.toString() ? `?${params.toString()}` : '';
+    const res = await fetchWithTimeout(apiUrl(`/products${queryString}`), {
       headers: { 'Content-Type': 'application/json' },
       cache: 'no-store',
     });
@@ -61,7 +88,7 @@ export async function getProducts(cat?: string, search?: string): Promise<Produc
 }
 
 export async function submitOrder(payload: CreateOrderPayload): Promise<OrderRecord> {
-  const res = await fetchWithTimeout(`${API_BASE_URL}/orders`, {
+  const res = await fetchWithTimeout(apiUrl('/orders'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
@@ -76,8 +103,8 @@ export async function submitOrder(payload: CreateOrderPayload): Promise<OrderRec
 export async function getOrders(status?: string): Promise<OrderRecord[]> {
   try {
     const url = status && status !== 'all'
-      ? `${API_BASE_URL}/orders?status=${encodeURIComponent(status)}`
-      : `${API_BASE_URL}/orders`;
+      ? apiUrl(`/orders?status=${encodeURIComponent(status)}`)
+      : apiUrl('/orders');
     const res = await fetchWithTimeout(url, { cache: 'no-store' });
     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
     return await res.json();
@@ -89,7 +116,7 @@ export async function getOrders(status?: string): Promise<OrderRecord[]> {
 
 export async function updateOrderStatus(id: string, status: string): Promise<OrderRecord | null> {
   try {
-    const res = await fetchWithTimeout(`${API_BASE_URL}/orders/${id}/status`, {
+    const res = await fetchWithTimeout(apiUrl(`/orders/${id}/status`), {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ status }),
@@ -105,7 +132,7 @@ export async function updateOrderStatus(id: string, status: string): Promise<Ord
 // ─── Admin (Protected) Endpoints ────────────────────────────
 
 export async function createProduct(payload: Partial<Product>, adminKey?: string): Promise<Product> {
-  const res = await fetchWithTimeout(`${API_BASE_URL}/products`, {
+  const res = await fetchWithTimeout(apiUrl('/products'), {
     method: 'POST',
     headers: getAdminHeaders(adminKey),
     body: JSON.stringify(payload),
@@ -118,7 +145,7 @@ export async function createProduct(payload: Partial<Product>, adminKey?: string
 }
 
 export async function updateProduct(id: string, payload: Partial<Product>, adminKey?: string): Promise<Product> {
-  const res = await fetchWithTimeout(`${API_BASE_URL}/products/${encodeURIComponent(id)}`, {
+  const res = await fetchWithTimeout(apiUrl(`/products/${encodeURIComponent(id)}`), {
     method: 'PUT',
     headers: getAdminHeaders(adminKey),
     body: JSON.stringify(payload),
@@ -131,7 +158,7 @@ export async function updateProduct(id: string, payload: Partial<Product>, admin
 }
 
 export async function deleteProduct(id: string, adminKey?: string): Promise<boolean> {
-  const res = await fetchWithTimeout(`${API_BASE_URL}/products/${encodeURIComponent(id)}`, {
+  const res = await fetchWithTimeout(apiUrl(`/products/${encodeURIComponent(id)}`), {
     method: 'DELETE',
     headers: getAdminHeaders(adminKey),
   });
@@ -142,7 +169,7 @@ export async function deleteProduct(id: string, adminKey?: string): Promise<bool
 }
 
 export async function createCategory(payload: Partial<Category>, adminKey?: string): Promise<Category> {
-  const res = await fetchWithTimeout(`${API_BASE_URL}/categories`, {
+  const res = await fetchWithTimeout(apiUrl('/categories'), {
     method: 'POST',
     headers: getAdminHeaders(adminKey),
     body: JSON.stringify(payload),
@@ -155,7 +182,7 @@ export async function createCategory(payload: Partial<Category>, adminKey?: stri
 }
 
 export async function deleteCategory(id: string, adminKey?: string): Promise<boolean> {
-  const res = await fetchWithTimeout(`${API_BASE_URL}/categories/${encodeURIComponent(id)}`, {
+  const res = await fetchWithTimeout(apiUrl(`/categories/${encodeURIComponent(id)}`), {
     method: 'DELETE',
     headers: getAdminHeaders(adminKey),
   });
@@ -166,7 +193,7 @@ export async function deleteCategory(id: string, adminKey?: string): Promise<boo
 }
 
 export async function seedDemoData(adminKey?: string): Promise<{ message: string; categoriesCount: number; productsCount: number }> {
-  const res = await fetchWithTimeout(`${API_BASE_URL}/seed?force=true`, {
+  const res = await fetchWithTimeout(apiUrl('/seed?force=true'), {
     method: 'POST',
     headers: getAdminHeaders(adminKey),
   });
@@ -177,7 +204,7 @@ export async function seedDemoData(adminKey?: string): Promise<{ message: string
 }
 
 export async function clearAllData(adminKey?: string): Promise<{ message: string; deletedCategories: number; deletedProducts: number }> {
-  const res = await fetchWithTimeout(`${API_BASE_URL}/seed/clear`, {
+  const res = await fetchWithTimeout(apiUrl('/seed/clear'), {
     method: 'DELETE',
     headers: getAdminHeaders(adminKey),
   });
