@@ -1,33 +1,50 @@
-name: Deploy Backend to AWS EC2
+name: Backend CI/CD Pipeline
 
+# Yeh pipeline tab chalegi jab 'beckend' branch par code push hoga
 on:
   push:
     branches:
-      - beckend  # Ensure karein ki aap 'backend' branch par hi push kar rahe hain
+      - beckend
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Deploy to Server via SSH
-        uses: appleboy/ssh-action@v1.0.3
+      # 1. GitHub se latest code lena
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # 2. Docker Hub mein login karna
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
         with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # 3. Nayi Image Build aur Push karna
+      - name: Build and Push Backend Image
+        run: |
+          docker build --platform linux/amd64 -t vijaysharma1/beckend:latest .
+          docker push vijaysharma1/beckend:latest
+
+      # 4. AWS EC2 par auto-login karke deploy karna
+      - name: Deploy to AWS EC2
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.AWS_HOST }}
+          username: ${{ secrets.AWS_USER }}
+          key: ${{ secrets.AWS_SSH_KEY }}
           script: |
-            # 1. Sahi directory mein jayein (Screenshot ke hisaab se)
-            cd /var/www/beckend/restaurant2
-
-            # 2. Latest code pull karein
-            git pull origin beckend
-
-            # 3. Dependencies install karein
-            npm install
-
-            # 4. Agar build step hai toh run karein (Agar project TypeScript nahi hai toh ise hata dein)
-            npm run build
-
-            # 5. PM2 process ko restart karein (Naam 'restaurant-api' hona chahiye)
-            pm2 restart restaurant-api || pm2 start dist/main.js --name restaurant-api
+            # Nayi image download karein
+            sudo docker pull vijaysharma1/beckend:latest
+            
+            # Purana container band karke delete karein (agar chal raha ho)
+            sudo docker stop myapp || true
+            sudo docker rm myapp || true
+            
+            # Naya container chalayein (AWS wali .env file ke sath)
+            sudo docker run -d --name myapp -p 4000:4000 --env-file ~/.env.beckend vijaysharma1/beckend:latest
+            
+            # Kooda (purani images) saaf karein
+            sudo docker image prune -f
