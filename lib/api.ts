@@ -1,6 +1,6 @@
 import { Category, CreateOrderPayload, OrderRecord, Product } from '../types';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 const FETCH_TIMEOUT_MS = 15000;
 
 /** Creates a fetch request with an AbortController timeout */
