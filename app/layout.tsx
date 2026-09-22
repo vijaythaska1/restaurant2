@@ -26,6 +26,9 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
+// Force dynamic rendering so process.env is read at runtime (not cached from build)
+export const dynamic = 'force-dynamic';
+
 export default function RootLayout({
   children,
 }: {
