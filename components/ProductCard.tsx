@@ -57,10 +57,10 @@ export function ProductCard({ product, onOpenDetails }: ProductCardProps) {
   return (
     <article
       onClick={() => onOpenDetails?.(product)}
-      className="group relative flex flex-col justify-between rounded-[20px] sm:rounded-[28px] bg-white p-1.5 sm:p-2.5 shadow-[0_4px_24px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_32px_rgba(0,0,0,0.08)] border border-black/[0.04] transition-all duration-300 cursor-pointer overflow-hidden min-w-0 w-full"
+      className="group relative flex flex-col rounded-[20px] sm:rounded-[28px] bg-white p-1.5 sm:p-2.5 shadow-[0_4px_24px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_32px_rgba(0,0,0,0.08)] border border-black/[0.04] transition-all duration-300 cursor-pointer overflow-hidden min-w-0 w-full h-full"
     >
       {/* Top Image Squircle Container */}
-      <div className="relative w-full aspect-square rounded-[16px] sm:rounded-[22px] bg-[#F4F7F2] p-1.5 sm:p-2 flex items-center justify-center overflow-hidden">
+      <div className="relative w-full aspect-square rounded-[16px] sm:rounded-[22px] bg-[#F4F7F2] p-1.5 sm:p-2 flex items-center justify-center overflow-hidden shrink-0">
         {/* Floating Heart / Favorite Button */}
         <button
           type="button"
@@ -85,6 +85,7 @@ export function ProductCard({ product, onOpenDetails }: ProductCardProps) {
             alt={product.name}
             onError={() => setImgError(true)}
             className="w-full h-full object-cover rounded-[12px] sm:rounded-[18px] transition-transform duration-500 group-hover:scale-105"
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             loading="lazy"
           />
         ) : (
@@ -95,11 +96,11 @@ export function ProductCard({ product, onOpenDetails }: ProductCardProps) {
       </div>
 
       {/* Content Section */}
-      <div className="flex flex-col flex-1 justify-between p-1.5 sm:p-2 pt-2 min-w-0">
+      <div className="flex flex-col flex-1 justify-between p-1.5 sm:p-2 pt-2 min-w-0 min-h-0">
         <div className="min-w-0">
           {/* Title & Star Rating */}
           <div className="flex items-start justify-between gap-1 min-w-0">
-            <h3 className="text-[12px] sm:text-[14px] font-extrabold text-[#1A1A2E] leading-snug tracking-tight line-clamp-2 group-hover:text-[#F4651A] transition-colors min-w-0 break-words">
+            <h3 className="text-[12px] sm:text-[14px] font-extrabold text-[#1A1A2E] leading-snug tracking-tight line-clamp-2 min-h-[2.5em] group-hover:text-[#F4651A] transition-colors min-w-0 break-words">
               {product.name}
             </h3>
             <div className="flex items-center gap-0.5 text-[10px] sm:text-[11px] font-black text-[#1A1A2E] shrink-0">

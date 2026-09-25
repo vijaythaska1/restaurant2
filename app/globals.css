@@ -114,10 +114,9 @@ body {
 /* Global Responsive Safeguards           */
 /* ====================================== */
 
-/* Ensure all images stay within their containers */
+/* Ensure all images stay within their containers without breaking height utilities */
 img {
   max-width: 100%;
-  height: auto;
 }
 
 /* Prevent long text from causing overflow */
