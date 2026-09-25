@@ -73,7 +73,7 @@ export class UploadsController {
       },
     }),
   )
-  async uploadImage(@UploadedFile() file: Express.Multer.File) {
+  async uploadImage(@UploadedFile() file: any) {
     if (!file) {
       throw new BadRequestException('No image file provided');
     }
