@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsOptional, IsNumber, IsBoolean, IsObject, Min, MinLength } from 'class-validator';
+import { IsString, IsNotEmpty, IsOptional, IsNumber, IsBoolean, IsObject, IsUrl, Min, MinLength } from 'class-validator';
 
 export class CreateProductDto {
   @IsString()
@@ -30,6 +30,10 @@ export class CreateProductDto {
   @IsObject()
   @IsOptional()
   sizes?: Record<string, number>;
+
+  @IsString()
+  @IsOptional()
+  image?: string;
 
   @IsBoolean()
   @IsOptional()

@@ -6,6 +6,7 @@ import { ProductsModule } from './modules/products/products.module';
 import { CategoriesModule } from './modules/categories/categories.module';
 import { OrdersModule } from './modules/orders/orders.module';
 import { SeedModule } from './modules/seed/seed.module';
+import { UploadsModule } from './modules/uploads/uploads.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -26,6 +27,7 @@ import { AppService } from './app.service';
     CategoriesModule,
     OrdersModule,
     SeedModule,
+    UploadsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

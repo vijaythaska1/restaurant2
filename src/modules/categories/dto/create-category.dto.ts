@@ -20,4 +20,8 @@ export class CreateCategoryDto {
   @IsNumber()
   @IsOptional()
   order?: number;
+
+  @IsString()
+  @IsOptional()
+  image?: string;
 }

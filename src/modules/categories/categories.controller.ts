@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Delete, Param, Body, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Param, Body, UseGuards } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { AdminGuard } from '../../guards/admin.guard';
@@ -21,6 +21,15 @@ export class CategoriesController {
   @UseGuards(AdminGuard)
   async create(@Body() createCategoryDto: CreateCategoryDto) {
     return this.categoriesService.create(createCategoryDto);
+  }
+
+  @Put(':id')
+  @UseGuards(AdminGuard)
+  async update(
+    @Param('id') id: string,
+    @Body() updateCategoryDto: Partial<CreateCategoryDto>,
+  ) {
+    return this.categoriesService.update(id, updateCategoryDto);
   }
 
   @Delete(':id')

@@ -30,6 +30,9 @@ export class Product {
   })
   sizes?: Record<string, number>;
 
+  @Prop({ default: '' })
+  image: string;
+
   @Prop({ default: true })
   isAvailable: boolean;
 

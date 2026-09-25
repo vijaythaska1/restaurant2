@@ -23,6 +23,12 @@ export class CategoriesService {
     return created.save();
   }
 
+  async update(id: string, category: Partial<Category>): Promise<Category | null> {
+    return this.categoryModel
+      .findOneAndUpdate({ id }, { $set: category }, { new: true })
+      .exec();
+  }
+
   async delete(id: string): Promise<Category | null> {
     return this.categoryModel.findOneAndDelete({ id }).exec();
   }

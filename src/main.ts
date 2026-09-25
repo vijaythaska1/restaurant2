@@ -1,19 +1,27 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { join } from 'path';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
   const logger = new Logger('Bootstrap');
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+
+  app.useStaticAssets(join(process.cwd(), 'uploads'), {
+    prefix: '/api/uploads/',
+  });
 
   const configService = app.get(ConfigService);
   const port = configService.get<number>('port') || 4000;
-  const corsOrigin = configService.get<string>('cors.origin') || 'http://localhost:3000';
 
+  // Fully open CORS to allow localhost, 127.0.0.1, local network IPs, and mobile devices
   app.enableCors({
-    origin: [corsOrigin, 'http://localhost:3000'],
+    origin: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    allowedHeaders: '*',
+    exposedHeaders: '*',
     credentials: true,
   });
 
