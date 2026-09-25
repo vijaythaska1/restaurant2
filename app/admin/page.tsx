@@ -430,7 +430,7 @@ export default function AdminPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] text-[#1A1A2E] font-sans antialiased">
+    <div className="min-h-screen bg-[#FAF8F5] text-[#1A1A2E] font-sans antialiased overflow-x-hidden min-w-0">
 
       {/* ========================================================= */}
       {/* AUTH GATE — Show Login Screen if not authenticated */}
@@ -513,7 +513,7 @@ export default function AdminPage() {
       {/* MAIN ADMIN DASHBOARD — Only visible when authenticated */}
       {/* ========================================================= */}
       {!isAuthChecking && isAuthenticated && (
-        <div className="min-h-screen bg-[#FAF8F5] text-[#1A1A2E]">
+        <div className="min-h-screen bg-[#FAF8F5] text-[#1A1A2E] overflow-x-hidden">
           {/* Toast notification banner */}
           {toastMessage && (
             <div
@@ -535,8 +535,8 @@ export default function AdminPage() {
           )}
 
           {/* Admin Header */}
-          <header className="sticky top-0 z-30 border-b border-black/[0.05] bg-white/95 backdrop-blur-xl px-4 sm:px-6 py-3 shadow-sm">
-            <div className="mx-auto flex max-w-[1100px] items-center justify-between gap-2 sm:gap-4">
+          <header className="sticky top-0 z-30 border-b border-black/[0.05] bg-white/95 backdrop-blur-xl px-3 sm:px-4 md:px-6 py-2.5 sm:py-3 shadow-sm">
+            <div className="mx-auto flex max-w-[1100px] items-center justify-between gap-1.5 sm:gap-2 md:gap-4">
               <div className="flex items-center gap-3 min-w-0">
                 <Link
                   href="/"
@@ -587,7 +587,7 @@ export default function AdminPage() {
             </div>
 
             {/* Tab Navigation (Products / Categories) */}
-            <div className="mx-auto mt-3 flex max-w-[1100px] gap-2 border-t border-black/[0.04] pt-2 overflow-x-auto scrollbar-none">
+            <div className="mx-auto mt-2 sm:mt-3 flex max-w-[1100px] gap-1.5 sm:gap-2 border-t border-black/[0.04] pt-2 overflow-x-auto scrollbar-none -mx-3 sm:mx-auto px-3 sm:px-0">
               <button
                 onClick={() => setActiveTab('products')}
                 className={`flex items-center gap-2 rounded-2xl px-4 py-2.5 text-xs sm:text-sm font-extrabold whitespace-nowrap transition-all cursor-pointer ${
@@ -632,14 +632,14 @@ export default function AdminPage() {
             </div>
           </header>
 
-          <main className="mx-auto max-w-[1100px] px-4 sm:px-6 py-6 sm:py-8">
+          <main className="mx-auto max-w-[1100px] px-3 sm:px-4 md:px-6 py-4 sm:py-6 md:py-8">
             {/* ========================================================= */}
             {/* TAB 1: PRODUCTS MANAGER */}
             {/* ========================================================= */}
             {activeTab === 'products' && (
               <div>
                 {/* Search & Add New Product */}
-                <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div className="mb-4 sm:mb-6 flex flex-col gap-2 sm:gap-3 sm:flex-row sm:items-center sm:justify-between">
                   <div className="flex flex-1 items-center gap-2">
                     <div className="relative flex-1">
                       <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#9E9EA7]" />
@@ -676,7 +676,7 @@ export default function AdminPage() {
                 </div>
 
                 {/* Category Filter Pills */}
-                <div className="mb-6 flex gap-2 overflow-x-auto pb-1 scrollbar-none items-center">
+                <div className="mb-4 sm:mb-6 flex gap-1.5 sm:gap-2 overflow-x-auto pb-1 scrollbar-none items-center -mx-3 sm:mx-0 px-3 sm:px-0">
                   <button
                     onClick={() => setSelectedProductCat('all')}
                     className={`whitespace-nowrap rounded-full px-4 py-2 text-xs font-bold transition-all cursor-pointer ${
@@ -732,11 +732,11 @@ export default function AdminPage() {
                     </button>
                   </div>
                 ) : (
-                  <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                     {filteredProducts.map((item) => (
                       <div
                         key={item.id}
-                        className="flex flex-col justify-between rounded-[28px] border border-black/[0.04] bg-white shadow-[0_4px_24px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_32px_rgba(0,0,0,0.08)] transition-all duration-300 relative group overflow-hidden"
+                        className="flex flex-col justify-between rounded-[20px] sm:rounded-[28px] border border-black/[0.04] bg-white shadow-[0_4px_24px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_32px_rgba(0,0,0,0.08)] transition-all duration-300 relative group overflow-hidden min-w-0"
                       >
                         {/* Product Thumbnail */}
                         {item.image ? (
@@ -755,7 +755,7 @@ export default function AdminPage() {
                           </div>
                         )}
 
-                        <div className="p-4 sm:p-5 flex flex-col flex-1 justify-between">
+                        <div className="p-3 sm:p-4 md:p-5 flex flex-col flex-1 justify-between min-w-0">
                           <div>
                             <div className="flex items-start justify-between gap-2">
                               <span className="rounded-lg bg-[#FFF5EF] px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-[#F4651A]">
@@ -783,11 +783,11 @@ export default function AdminPage() {
                             )}
                           </div>
 
-                          <div className="mt-4 border-t border-black/[0.04] pt-3.5">
+                          <div className="mt-3 sm:mt-4 border-t border-black/[0.04] pt-2.5 sm:pt-3.5">
                             {/* Pricing preview */}
-                            <div className="mb-3">
+                            <div className="mb-2 sm:mb-3">
                               {item.sizes ? (
-                                <div className="flex flex-wrap items-center gap-1.5 text-xs">
+                                <div className="flex flex-wrap items-center gap-1 sm:gap-1.5 text-[10px] sm:text-xs">
                                   {Object.entries(item.sizes).map(([sz, pr]) => (
                                     <span
                                       key={sz}
@@ -805,7 +805,7 @@ export default function AdminPage() {
                             </div>
 
                             {/* Action buttons */}
-                            <div className="flex items-center justify-end gap-2">
+                            <div className="flex items-center justify-end gap-1.5 sm:gap-2 flex-wrap">
                               <button
                                 onClick={() => handleOpenEditProduct(item)}
                                 className="flex items-center gap-1.5 rounded-xl border border-black/[0.06] bg-[#F2F2F7] px-3 py-1.5 text-xs font-bold text-[#1A1A2E] hover:bg-[#FFF5EF] hover:text-[#F4651A] transition-all cursor-pointer"
@@ -835,7 +835,7 @@ export default function AdminPage() {
             {/* ========================================================= */}
             {activeTab === 'categories' && (
               <div>
-                <div className="mb-6 flex items-center justify-between">
+                <div className="mb-4 sm:mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <div>
                     <h2 className="text-base sm:text-lg font-black text-[#1A1A2E]">
                       Menu Categories
@@ -854,7 +854,7 @@ export default function AdminPage() {
                   </button>
                 </div>
 
-                <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+                <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
                   {categories
                     .filter((cat) => cat.id !== 'all' && cat.name.toLowerCase() !== 'all')
                     .map((cat) => {
@@ -862,7 +862,7 @@ export default function AdminPage() {
                     return (
                       <div
                         key={cat.id}
-                        className="flex flex-col justify-between rounded-[28px] border border-black/[0.04] bg-white p-5 shadow-[0_4px_24px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)] transition-all"
+                        className="flex flex-col justify-between rounded-[20px] sm:rounded-[28px] border border-black/[0.04] bg-white p-3.5 sm:p-5 shadow-[0_4px_24px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)] transition-all min-w-0"
                       >
                         <div>
                           {/* Category Image Preview if available */}
@@ -876,11 +876,11 @@ export default function AdminPage() {
                             </div>
                           ) : null}
 
-                          <div className="flex items-start justify-between">
-                            <span className="font-mono text-xs font-black text-[#F4651A] bg-[#FFF5EF] px-2.5 py-0.5 rounded-lg border border-[#F4651A]/20">
+                          <div className="flex items-start justify-between gap-2 min-w-0">
+                            <span className="font-mono text-[10px] sm:text-xs font-black text-[#F4651A] bg-[#FFF5EF] px-2 sm:px-2.5 py-0.5 rounded-lg border border-[#F4651A]/20 truncate min-w-0">
                               id: {cat.id}
                             </span>
-                            <span className="text-[11px] font-bold text-[#8E8E93]">
+                            <span className="text-[10px] sm:text-[11px] font-bold text-[#8E8E93] shrink-0">
                               Order: {cat.order || 1}
                             </span>
                           </div>
@@ -894,7 +894,7 @@ export default function AdminPage() {
                           </p>
                         </div>
 
-                        <div className="mt-4 flex items-center justify-between border-t border-black/[0.04] pt-3">
+                        <div className="mt-3 sm:mt-4 flex items-center justify-between border-t border-black/[0.04] pt-2.5 sm:pt-3 gap-2 flex-wrap">
                           <span className="text-xs font-bold text-[#F4651A]">
                             {catProductsCount} {catProductsCount === 1 ? 'item' : 'items'}
                           </span>
@@ -927,8 +927,8 @@ export default function AdminPage() {
           {/* ADD / EDIT PRODUCT MODAL */}
           {/* ========================================================= */}
           {isProductModalOpen && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 overflow-y-auto">
-              <div className="relative w-full max-w-[550px] rounded-[32px] bg-white p-6 sm:p-7 shadow-2xl my-8 border border-black/[0.06]">
+            <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center bg-black/60 backdrop-blur-xs p-0 sm:p-4 overflow-y-auto">
+              <div className="relative w-full sm:max-w-[550px] min-h-full sm:min-h-0 rounded-none sm:rounded-[32px] bg-white p-4 sm:p-6 md:p-7 shadow-2xl sm:my-8 border-0 sm:border border-black/[0.06]">
                 <div className="flex items-center justify-between border-b border-black/[0.05] pb-4">
                   <div className="flex items-center gap-2.5">
                     <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#FFF5EF] text-[#F4651A]">
@@ -1130,11 +1130,11 @@ export default function AdminPage() {
                   </div>
 
                   {/* Pricing Type Selector */}
-                  <div className="rounded-2xl border border-black/[0.06] bg-[#FAF8F5] p-3.5">
+                  <div className="rounded-2xl border border-black/[0.06] bg-[#FAF8F5] p-3 sm:p-3.5">
                     <label className="block text-xs font-bold text-[#1A1A2E] mb-2">
                       Pricing Structure:
                     </label>
-                    <div className="flex gap-2">
+                    <div className="flex flex-col min-[400px]:flex-row gap-2">
                       <button
                         type="button"
                         onClick={() => setPricingType('sizes')}
@@ -1161,7 +1161,7 @@ export default function AdminPage() {
 
                     {/* Sizes Inputs */}
                     {pricingType === 'sizes' ? (
-                      <div className="mt-3.5 grid grid-cols-3 gap-2">
+                      <div className="mt-3 sm:mt-3.5 grid grid-cols-3 gap-1.5 sm:gap-2">
                         <div>
                           <label className="block text-[11px] font-bold text-[#8E8E93]">
                             Small (₹)
@@ -1259,7 +1259,7 @@ export default function AdminPage() {
                   </div>
 
                   {/* Submit Buttons */}
-                  <div className="flex items-center justify-end gap-2 border-t border-black/[0.04] pt-4">
+                  <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-2 border-t border-black/[0.04] pt-4">
                     <button
                       type="button"
                       onClick={() => setIsProductModalOpen(false)}
@@ -1283,8 +1283,8 @@ export default function AdminPage() {
           {/* ADD / EDIT CATEGORY MODAL */}
           {/* ========================================================= */}
           {isCategoryModalOpen && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4">
-              <div className="relative w-full max-w-[460px] max-h-[90vh] overflow-y-auto rounded-[32px] bg-white p-6 sm:p-7 shadow-2xl border border-black/[0.06]">
+            <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center bg-black/60 backdrop-blur-xs p-0 sm:p-4 overflow-y-auto">
+              <div className="relative w-full sm:max-w-[460px] min-h-full sm:min-h-0 max-h-full sm:max-h-[90vh] overflow-y-auto rounded-none sm:rounded-[32px] bg-white p-4 sm:p-6 md:p-7 shadow-2xl border-0 sm:border border-black/[0.06]">
                 <div className="flex items-center justify-between border-b border-black/[0.05] pb-4">
                   <div className="flex items-center gap-2.5">
                     <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#FFF5EF] text-[#F4651A]">
@@ -1466,7 +1466,7 @@ export default function AdminPage() {
                     />
                   </div>
 
-                  <div className="flex items-center justify-end gap-2 border-t border-black/[0.04] pt-4">
+                  <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-2 border-t border-black/[0.04] pt-4">
                     <button
                       type="button"
                       onClick={() => setIsCategoryModalOpen(false)}

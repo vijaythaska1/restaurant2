@@ -169,7 +169,7 @@ export function CheckoutModal() {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-end bg-black/60 backdrop-blur-xs transition-opacity"
+      className="fixed inset-0 z-50 flex items-center justify-center sm:justify-end bg-black/60 backdrop-blur-xs transition-opacity"
       onClick={(e) => {
         if (e.target === e.currentTarget) closeCheckout();
       }}
@@ -177,9 +177,9 @@ export function CheckoutModal() {
       aria-modal="true"
       aria-label="Order details"
     >
-      <div className="relative flex h-full w-full max-w-[500px] flex-col bg-white shadow-2xl animate-in slide-in-from-right duration-250">
+      <div className="relative flex h-full w-full sm:max-w-[500px] flex-col bg-white shadow-2xl animate-in slide-in-from-right duration-250">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-[#e6ece4] px-5 py-4">
+        <div className="flex items-center justify-between border-b border-[#e6ece4] px-4 sm:px-5 py-3 sm:py-4 shrink-0">
           <h2 className="text-xl font-bold text-[#17251c]">Order Details</h2>
           <button
             onClick={closeCheckout}
@@ -191,7 +191,7 @@ export function CheckoutModal() {
         </div>
 
         {/* Form Body */}
-        <form onSubmit={handlePlaceOrder} className="flex-1 overflow-y-auto p-5" noValidate>
+        <form onSubmit={handlePlaceOrder} className="flex-1 overflow-y-auto p-4 sm:p-5 safe-bottom" noValidate>
           {errorMessage && (
             <div className="mb-4 rounded-xl bg-red-50 p-3 text-xs font-semibold text-red-700 border border-red-200" role="alert">
               {errorMessage}
@@ -242,7 +242,7 @@ export function CheckoutModal() {
             <label className="block text-xs font-bold text-[#1A1A2E] mb-1.5">
               Order type
             </label>
-            <div className="grid grid-cols-1 min-[400px]:grid-cols-3 gap-2">
+            <div className="grid grid-cols-1 min-[360px]:grid-cols-3 gap-2">
               {(['Dine-in', 'Takeaway', 'Home Delivery'] as OrderType[]).map((type) => {
                 const checked = orderType === type;
                 return (

@@ -13,7 +13,7 @@ export function BottomCartBar() {
   return (
     <aside
       aria-label="Current order summary"
-      className="fixed bottom-4 left-1/2 z-30 flex w-[calc(100%-32px)] max-w-[490px] -translate-x-1/2 items-center justify-between rounded-[22px] glass-dark px-5 py-3.5 text-white shadow-[0_8px_40px_rgba(0,0,0,0.25)] transition-all animate-in fade-in slide-in-from-bottom-4 duration-300"
+      className="fixed bottom-3 sm:bottom-4 left-1/2 z-30 flex w-[calc(100%-24px)] sm:w-[calc(100%-32px)] max-w-[490px] -translate-x-1/2 items-center justify-between rounded-[18px] sm:rounded-[22px] glass-dark px-3.5 sm:px-5 py-3 sm:py-3.5 text-white shadow-[0_8px_40px_rgba(0,0,0,0.25)] transition-all animate-in fade-in slide-in-from-bottom-4 duration-300 safe-bottom"
     >
       <div className="flex items-center gap-3">
         <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#F4651A] text-white shadow-md">

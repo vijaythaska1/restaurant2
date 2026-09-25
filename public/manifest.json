@@ -1,0 +1,21 @@
+{
+  "name": "Crust & Crave – Artisanal Gourmet Pizzeria",
+  "short_name": "Crust & Crave",
+  "description": "Order artisanal stone-baked pizzas, handcrafted smash burgers & premium shakes online. Free home delivery.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAFAFA",
+  "theme_color": "#F4651A",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["food", "restaurants", "shopping"],
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

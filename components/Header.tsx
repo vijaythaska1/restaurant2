@@ -16,7 +16,7 @@ export function Header({ searchQuery, onSearchChange }: HeaderProps) {
   const { totalCount, totalAmount, openCart } = useCart();
 
   return (
-    <header className="sticky top-0 z-30 bg-[#FAF8F5]/95 backdrop-blur-xl border-b border-black/[0.06] transition-all">
+    <header className="sticky top-0 z-30 bg-[#FAF8F5]/95 backdrop-blur-xl border-b border-black/[0.06] transition-all" role="banner">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-3">
         {/* Desktop & Tablet Top Bar (Clean single-row or two-tier responsive) */}
         <div className="flex items-center justify-between gap-3 sm:gap-6">
@@ -41,7 +41,7 @@ export function Header({ searchQuery, onSearchChange }: HeaderProps) {
           </Link>
 
           {/* Search Bar on Desktop & Tablet (Hidden on small mobile, shown on sm+) */}
-          <div className="hidden sm:flex flex-1 max-w-md relative">
+          <div className="hidden sm:flex flex-1 max-w-md relative" role="search">
             <div className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[#9E9EA7]">
               <Search className="h-[18px] w-[18px]" />
             </div>
@@ -115,7 +115,7 @@ export function Header({ searchQuery, onSearchChange }: HeaderProps) {
           </div>
 
           {/* Mobile Search Input */}
-          <div className="relative">
+          <div className="relative" role="search">
             <div className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[#9E9EA7]">
               <Search className="h-[16px] w-[16px]" />
             </div>

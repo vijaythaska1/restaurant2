@@ -72,7 +72,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] text-[#1A1A2E] flex flex-col font-sans antialiased selection:bg-[#F4651A]/20 selection:text-[#F4651A]">
+    <div className="min-h-screen bg-[#FAF8F5] text-[#1A1A2E] flex flex-col font-sans antialiased selection:bg-[#F4651A]/20 selection:text-[#F4651A] overflow-x-hidden min-w-0">
       <Header
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}

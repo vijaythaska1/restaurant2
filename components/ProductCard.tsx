@@ -57,10 +57,10 @@ export function ProductCard({ product, onOpenDetails }: ProductCardProps) {
   return (
     <article
       onClick={() => onOpenDetails?.(product)}
-      className="group relative flex flex-col justify-between rounded-[28px] bg-white p-2.5 shadow-[0_4px_24px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_32px_rgba(0,0,0,0.08)] border border-black/[0.04] transition-all duration-300 cursor-pointer overflow-hidden"
+      className="group relative flex flex-col justify-between rounded-[20px] sm:rounded-[28px] bg-white p-1.5 sm:p-2.5 shadow-[0_4px_24px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_32px_rgba(0,0,0,0.08)] border border-black/[0.04] transition-all duration-300 cursor-pointer overflow-hidden min-w-0 w-full"
     >
       {/* Top Image Squircle Container */}
-      <div className="relative w-full aspect-square rounded-[22px] bg-[#F4F7F2] p-2 flex items-center justify-center overflow-hidden">
+      <div className="relative w-full aspect-square rounded-[16px] sm:rounded-[22px] bg-[#F4F7F2] p-1.5 sm:p-2 flex items-center justify-center overflow-hidden">
         {/* Floating Heart / Favorite Button */}
         <button
           type="button"
@@ -68,14 +68,14 @@ export function ProductCard({ product, onOpenDetails }: ProductCardProps) {
             e.stopPropagation();
             setIsLiked(!isLiked);
           }}
-          className={`absolute top-2 right-2 z-10 flex h-7 w-7 items-center justify-center rounded-full backdrop-blur-md shadow-sm transition-all active:scale-80 cursor-pointer ${
+          className={`absolute top-1.5 right-1.5 sm:top-2 sm:right-2 z-10 flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-full backdrop-blur-md shadow-sm transition-all active:scale-80 cursor-pointer ${
             isLiked
               ? 'bg-[#F4651A] text-white'
               : 'bg-white/90 text-[#8E8E93] hover:text-[#F4651A]'
           }`}
           aria-label="Save to favorites"
         >
-          <Heart className={`h-3.5 w-3.5 ${isLiked ? 'fill-white' : ''}`} />
+          <Heart className={`h-3 w-3 sm:h-3.5 sm:w-3.5 ${isLiked ? 'fill-white' : ''}`} />
         </button>
 
         {/* Product Image */}
@@ -84,49 +84,49 @@ export function ProductCard({ product, onOpenDetails }: ProductCardProps) {
             src={resolveImageUrl(product.image)}
             alt={product.name}
             onError={() => setImgError(true)}
-            className="w-full h-full object-cover rounded-[18px] transition-transform duration-500 group-hover:scale-105"
+            className="w-full h-full object-cover rounded-[12px] sm:rounded-[18px] transition-transform duration-500 group-hover:scale-105"
             loading="lazy"
           />
         ) : (
-          <span className="text-5xl select-none filter drop-shadow-sm">
+          <span className="text-4xl sm:text-5xl select-none filter drop-shadow-sm">
             {product.cat === 'pizza' ? '🍕' : product.cat === 'burgers' ? '🍔' : product.cat === 'beverages' ? '🥤' : product.cat === 'sides' ? '🍟' : '🍽️'}
           </span>
         )}
       </div>
 
       {/* Content Section */}
-      <div className="flex flex-col flex-1 justify-between p-2 pt-2.5">
-        <div>
+      <div className="flex flex-col flex-1 justify-between p-1.5 sm:p-2 pt-2 min-w-0">
+        <div className="min-w-0">
           {/* Title & Star Rating */}
-          <div className="flex items-start justify-between gap-1">
-            <h3 className="text-[14px] font-extrabold text-[#1A1A2E] leading-snug tracking-tight line-clamp-1 group-hover:text-[#F4651A] transition-colors">
+          <div className="flex items-start justify-between gap-1 min-w-0">
+            <h3 className="text-[12px] sm:text-[14px] font-extrabold text-[#1A1A2E] leading-snug tracking-tight line-clamp-2 group-hover:text-[#F4651A] transition-colors min-w-0 break-words">
               {product.name}
             </h3>
-            <div className="flex items-center gap-0.5 text-[11px] font-black text-[#1A1A2E] shrink-0">
-              <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
+            <div className="flex items-center gap-0.5 text-[10px] sm:text-[11px] font-black text-[#1A1A2E] shrink-0">
+              <Star className="h-2.5 w-2.5 sm:h-3 sm:w-3 fill-amber-400 text-amber-400" />
               <span>{rating}</span>
             </div>
           </div>
 
           {/* Badges: Time & Calories */}
-          <div className="mt-1.5 flex items-center gap-1.5">
-            <span className="rounded-md bg-[#F2F2F7] px-1.5 py-0.5 text-[10px] font-bold text-[#8E8E93]">
+          <div className="mt-1 sm:mt-1.5 flex items-center gap-1 sm:gap-1.5 flex-wrap">
+            <span className="rounded-md bg-[#F2F2F7] px-1 sm:px-1.5 py-0.5 text-[9px] sm:text-[10px] font-bold text-[#8E8E93]">
               {prepTime}
             </span>
-            <span className="rounded-md bg-[#F2F2F7] px-1.5 py-0.5 text-[10px] font-bold text-[#8E8E93]">
+            <span className="rounded-md bg-[#F2F2F7] px-1 sm:px-1.5 py-0.5 text-[9px] sm:text-[10px] font-bold text-[#8E8E93]">
               {calories}
             </span>
           </div>
         </div>
 
         {/* Bottom Row: Price & Add Button */}
-        <div className="mt-3 flex items-center justify-between gap-1">
-          <div>
-            <span className="text-[16px] font-black text-[#1A1A2E]">
+        <div className="mt-2 sm:mt-3 flex items-center justify-between gap-1 min-w-0">
+          <div className="min-w-0 shrink">
+            <span className="text-[13px] sm:text-[16px] font-black text-[#1A1A2E] whitespace-nowrap">
               {formatCurrency(displayPrice)}
             </span>
             {hasSizes && (
-              <span className="ml-1 text-[9px] font-bold text-[#8E8E93]">
+              <span className="ml-0.5 sm:ml-1 text-[8px] sm:text-[9px] font-bold text-[#8E8E93]">
                 {defaultSize}
               </span>
             )}
@@ -136,23 +136,23 @@ export function ProductCard({ product, onOpenDetails }: ProductCardProps) {
           {isAdded ? (
             <div
               onClick={(e) => e.stopPropagation()}
-              className="flex items-center gap-0 rounded-full bg-[#F4651A] shadow-[0_2px_12px_rgba(244,101,26,0.3)]"
+              className="flex items-center gap-0 rounded-full bg-[#F4651A] shadow-[0_2px_12px_rgba(244,101,26,0.3)] shrink-0"
             >
               <button
                 type="button"
                 onClick={handleDecrease}
-                className="flex h-8 w-8 items-center justify-center rounded-full text-white transition-all active:scale-90 cursor-pointer hover:bg-[#E05A15]"
+                className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full text-white transition-all active:scale-90 cursor-pointer hover:bg-[#E05A15]"
                 aria-label="Decrease quantity"
               >
                 <Minus className="h-3 w-3 stroke-[3]" />
               </button>
-              <span className="min-w-[20px] text-center text-[12px] font-black text-white">
+              <span className="min-w-[16px] sm:min-w-[20px] text-center text-[11px] sm:text-[12px] font-black text-white">
                 {addedQty}
               </span>
               <button
                 type="button"
                 onClick={handleAdd}
-                className="flex h-8 w-8 items-center justify-center rounded-full text-white transition-all active:scale-90 cursor-pointer hover:bg-[#E05A15]"
+                className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full text-white transition-all active:scale-90 cursor-pointer hover:bg-[#E05A15]"
                 aria-label="Increase quantity"
               >
                 <Plus className="h-3 w-3 stroke-[3]" />
@@ -162,10 +162,10 @@ export function ProductCard({ product, onOpenDetails }: ProductCardProps) {
             <button
               type="button"
               onClick={handleAdd}
-              className="flex h-9 w-9 items-center justify-center rounded-2xl bg-[#F4651A] text-white shadow-[0_4px_12px_rgba(244,101,26,0.25)] hover:bg-[#E05A15] active:scale-90 transition-all cursor-pointer"
+              className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-xl sm:rounded-2xl bg-[#F4651A] text-white shadow-[0_4px_12px_rgba(244,101,26,0.25)] hover:bg-[#E05A15] active:scale-90 transition-all cursor-pointer shrink-0"
               aria-label={`Add ${product.name}`}
             >
-              <Plus className="h-4 w-4 stroke-[3]" />
+              <Plus className="h-3.5 w-3.5 sm:h-4 sm:w-4 stroke-[3]" />
             </button>
           )}
         </div>

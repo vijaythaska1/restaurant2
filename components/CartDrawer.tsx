@@ -36,12 +36,12 @@ export function CartDrawer() {
         if (e.target === e.currentTarget) closeCart();
       }}
     >
-      <div className="absolute right-0 top-0 flex h-full w-full max-w-[440px] flex-col bg-[#FAF8F5] shadow-2xl animate-in slide-in-from-right duration-250">
+      <div className="absolute right-0 top-0 flex h-full w-full sm:max-w-[440px] flex-col bg-[#FAF8F5] shadow-2xl animate-in slide-in-from-right duration-250">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-black/[0.06] px-5 py-4 bg-white">
+        <div className="flex items-center justify-between border-b border-black/[0.06] px-4 sm:px-5 py-3 sm:py-4 bg-white shrink-0">
           <div className="flex items-center gap-2">
             <ShoppingBag className="h-5 w-5 text-[#F4651A]" />
-            <h2 className="text-[17px] font-black text-[#1A1A2E]">Your Order</h2>
+            <h2 className="text-[16px] sm:text-[17px] font-black text-[#1A1A2E]">Your Order</h2>
           </div>
           <button
             onClick={closeCart}
@@ -53,7 +53,7 @@ export function CartDrawer() {
         </div>
 
         {/* Items List */}
-        <div className="flex-1 overflow-y-auto px-5 py-3 divide-y divide-black/[0.04]">
+        <div className="flex-1 overflow-y-auto px-4 sm:px-5 py-3 divide-y divide-black/[0.04]">
           {items.length === 0 ? (
             <div className="flex h-full flex-col items-center justify-center text-center text-[#8E8E93] py-12">
               <div className="mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-[#FFF5EF] text-[#F4651A]">
@@ -66,10 +66,10 @@ export function CartDrawer() {
             items.map((item) => {
               const lineTotal = item.price * item.qty;
               return (
-                <div key={item.key} className="py-3.5">
-                  <div className="flex items-start justify-between gap-3">
-                    <div>
-                      <h4 className="text-[14px] font-bold text-[#1A1A2E]">
+                <div key={item.key} className="py-3 sm:py-3.5">
+                  <div className="flex items-start justify-between gap-2 sm:gap-3 min-w-0">
+                    <div className="min-w-0 flex-1">
+                      <h4 className="text-[13px] sm:text-[14px] font-bold text-[#1A1A2E] break-words">
                         {item.name}
                         {item.size && (
                           <span className="ml-1 text-xs font-bold text-[#F4651A]">
@@ -81,13 +81,13 @@ export function CartDrawer() {
                         {formatCurrency(item.price)} each
                       </p>
                     </div>
-                    <span className="text-[14px] font-black text-[#1A1A2E]">
+                    <span className="text-[13px] sm:text-[14px] font-black text-[#1A1A2E] shrink-0">
                       {formatCurrency(lineTotal)}
                     </span>
                   </div>
 
                   {/* Item controls */}
-                  <div className="mt-2.5 flex items-center justify-between">
+                  <div className="mt-2 sm:mt-2.5 flex items-center justify-between">
                     <button
                       onClick={() => removeItem(item.key)}
                       className="flex items-center gap-1 text-xs font-bold text-rose-500 hover:text-rose-600 cursor-pointer"
@@ -124,16 +124,16 @@ export function CartDrawer() {
 
         {/* Footer */}
         {items.length > 0 && (
-          <div className="border-t border-black/[0.06] bg-white p-5 shadow-[0_-8px_24px_rgba(0,0,0,0.03)]">
-            <div className="mb-3.5 flex items-center justify-between">
+          <div className="border-t border-black/[0.06] bg-white p-4 sm:p-5 shadow-[0_-8px_24px_rgba(0,0,0,0.03)] shrink-0 safe-bottom">
+            <div className="mb-3 sm:mb-3.5 flex items-center justify-between">
               <span className="text-sm font-bold text-[#8E8E93]">Total Amount</span>
-              <span className="text-xl font-black text-[#1A1A2E]">
+              <span className="text-lg sm:text-xl font-black text-[#1A1A2E]">
                 {formatCurrency(totalAmount)}
               </span>
             </div>
             <button
               onClick={openCheckout}
-              className="w-full rounded-2xl bg-[#F4651A] py-3.5 text-center text-sm font-black text-white shadow-[0_6px_20px_rgba(244,101,26,0.35)] hover:bg-[#E05A15] active:scale-[0.99] transition-all cursor-pointer"
+              className="w-full rounded-2xl bg-[#F4651A] py-3 sm:py-3.5 text-center text-sm font-black text-white shadow-[0_6px_20px_rgba(244,101,26,0.35)] hover:bg-[#E05A15] active:scale-[0.99] transition-all cursor-pointer"
             >
               Continue to Checkout
             </button>

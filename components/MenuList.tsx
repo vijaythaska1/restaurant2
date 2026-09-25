@@ -49,7 +49,7 @@ export function MenuList({ products, isLoading, onOpenDetails }: MenuListProps) 
   const sections = Array.from(sectionMap.entries());
 
   return (
-    <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-32 pt-4">
+    <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-32 pt-4" aria-label="Menu items">
       {sections.map(([sectionName, items]) => (
         <div key={sectionName} className="mb-10">
           {/* Section Header with badge & count */}
@@ -67,8 +67,8 @@ export function MenuList({ products, isLoading, onOpenDetails }: MenuListProps) 
             </span>
           </div>
 
-          {/* Product Cards Grid: 2 columns on mobile, 3 on tablet, 4 on desktop */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5 md:gap-6">
+          {/* Product Cards Grid: Responsive auto-fill grid */}
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-4 md:gap-5 lg:gap-6">
             {items.map((item) => (
               <ProductCard
                 key={item.id}
