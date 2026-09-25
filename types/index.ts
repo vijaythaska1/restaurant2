@@ -1,11 +1,15 @@
 export interface Product {
   id: string;
-  cat: 'pizza' | 'sides' | 'beverages' | 'burgers' | 'value' | string;
+  cat: 'pizza' | 'sides' | 'beverages' | 'burgers' | 'value' | 'dessert' | string;
   section: string;
   name: string;
   desc?: string;
   price?: number;
   sizes?: Record<string, number>;
+  image?: string;
+  rating?: number;
+  prepTime?: string;
+  calories?: string;
   isAvailable?: boolean;
   order?: number;
 }
@@ -15,6 +19,7 @@ export interface Category {
   name: string;
   desc: string;
   order: number;
+  image?: string;
 }
 
 export interface CartItem {

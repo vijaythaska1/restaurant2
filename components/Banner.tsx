@@ -1,20 +1,22 @@
+'use client';
+
 import React from 'react';
+import { Sparkles } from 'lucide-react';
 
 export function Banner() {
   return (
-    <div className="mx-auto max-w-[1050px] px-3 pt-3.5 sm:px-4">
-      <div className="flex items-center justify-between rounded-2xl bg-gradient-to-r from-[#d8f66d] via-[#eafd8f] to-[#f8fff0] p-4 shadow-sm border border-[#cbe95e]/40 transition-all hover:shadow-md">
-        <div>
-          <strong className="text-base sm:text-lg font-extrabold text-[#17251c]">
-            All New Value Menu
-          </strong>
-          <p className="mt-0.5 text-xs sm:text-sm font-medium text-[#3e5144]">
-            Starting at just ₹59 • Order directly on WhatsApp
-          </p>
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-4 sm:pt-6 pb-2">
+      <div>
+        <div className="inline-flex items-center gap-1.5 rounded-full bg-[#FFF5EF] px-3 py-1 text-xs font-black text-[#F4651A] border border-[#F4651A]/20 mb-2">
+          <Sparkles className="h-3.5 w-3.5 fill-[#F4651A]" />
+          <span>Craving Authentic Flavors?</span>
         </div>
-        <div className="text-3xl sm:text-4xl filter drop-shadow-sm select-none animate-pulse">
-          🍕
-        </div>
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-[#1A1A2E] leading-[1.15] tracking-tight">
+          Hungry? We Got You Served!
+        </h1>
+        <p className="mt-1 text-xs sm:text-sm font-medium text-[#8E8E93] max-w-xl">
+          Artisanal stone-baked pizzas, handcrafted smash burgers & crispy sides, freshly prepared for you.
+        </p>
       </div>
     </div>
   );

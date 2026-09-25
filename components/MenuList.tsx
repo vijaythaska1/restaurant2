@@ -3,67 +3,82 @@
 import React from 'react';
 import { Product } from '../types';
 import { ProductCard } from './ProductCard';
-import { Pizza } from 'lucide-react';
+import { UtensilsCrossed } from 'lucide-react';
 
 interface MenuListProps {
   products: Product[];
   isLoading?: boolean;
+  onOpenDetails: (product: Product) => void;
 }
 
-export function MenuList({ products, isLoading }: MenuListProps) {
+export function MenuList({ products, isLoading, onOpenDetails }: MenuListProps) {
   if (isLoading) {
     return (
-      <div className="mx-auto max-w-[1050px] px-3 py-12 text-center text-[#68716b]">
-        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-emerald-600 border-t-transparent mb-3" />
-        <p className="text-sm font-medium">Loading delicious menu...</p>
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-24 text-center">
+        <div className="inline-flex flex-col items-center gap-3">
+          <div className="h-10 w-10 rounded-full border-[3px] border-[#F4651A] border-t-transparent animate-spin" />
+          <p className="text-sm font-bold text-[#8E8E93]">Fetching fresh flavors...</p>
+        </div>
       </div>
     );
   }
 
   if (products.length === 0) {
     return (
-      <div className="mx-auto max-w-[1050px] px-3 py-16 text-center text-[#68716b]">
-        <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-700">
-          <Pizza className="h-6 w-6" />
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 text-center">
+        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-3xl bg-[#FFF5EF] text-[#F4651A] shadow-xs">
+          <UtensilsCrossed className="h-7 w-7" />
         </div>
-        <h3 className="text-base font-bold text-[#17251c]">No items found</h3>
-        <p className="mt-1 text-xs text-[#68716b]">Try searching for something else or pick another category.</p>
+        <h3 className="text-lg font-black text-[#1A1A2E]">No items found</h3>
+        <p className="mt-1 text-sm font-medium text-[#8E8E93]">
+          Try searching for something else or pick another category.
+        </p>
       </div>
     );
   }
 
-  // Group products by their section
+  // Group products by section
   const sectionMap = new Map<string, Product[]>();
   products.forEach((p) => {
-    const list = sectionMap.get(p.section) || [];
+    const sectionName = p.section || 'Featured Menu';
+    const list = sectionMap.get(sectionName) || [];
     list.push(p);
-    sectionMap.set(p.section, list);
+    sectionMap.set(sectionName, list);
   });
 
   const sections = Array.from(sectionMap.entries());
 
   return (
-    <main className="mx-auto max-w-[1050px] px-3 pb-32 pt-2 sm:px-4">
+    <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-32 pt-4">
       {sections.map(([sectionName, items]) => (
-        <section key={sectionName} className="mb-7">
-          {/* Section title & count */}
-          <div className="mb-2.5 flex items-baseline justify-between border-b border-[#e2ebd0]/70 pb-1.5">
-            <h2 className="text-lg sm:text-xl font-black text-[#17251c] tracking-tight">
-              {sectionName}
-            </h2>
-            <p className="text-xs font-semibold text-[#68716b]">
-              {items.length} {items.length === 1 ? 'item' : 'items'}
-            </p>
+        <div key={sectionName} className="mb-10">
+          {/* Section Header with badge & count */}
+          <div className="mb-4 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <h2 className="text-xl sm:text-2xl font-black text-[#1A1A2E] tracking-tight">
+                {sectionName}
+              </h2>
+              <span className="rounded-full bg-black/[0.04] px-2.5 py-0.5 text-xs font-bold text-[#8E8E93]">
+                {items.length}
+              </span>
+            </div>
+            <span className="text-xs font-bold text-[#F4651A]">
+              Fresh Today
+            </span>
           </div>
 
-          {/* Responsive product grid (2 cols mobile, 3 cols desktop) */}
-          <div className="grid grid-cols-2 gap-2.5 sm:gap-3.5 md:grid-cols-3">
+          {/* Product Cards Grid: 2 columns on mobile, 3 on tablet, 4 on desktop */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5 md:gap-6">
             {items.map((item) => (
-              <ProductCard key={item.id} product={item} />
+              <ProductCard
+                key={item.id}
+                product={item}
+                onOpenDetails={onOpenDetails}
+              />
             ))}
           </div>
-        </section>
+        </div>
       ))}
-    </main>
+    </section>
   );
 }

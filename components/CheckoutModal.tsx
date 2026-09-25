@@ -211,13 +211,13 @@ export function CheckoutModal() {
               onChange={(e) => setCustomerName(e.target.value)}
               placeholder="Your name"
               minLength={2}
-              className="w-full rounded-xl border border-[#d7e0d5] bg-white p-3 text-sm text-[#17251c] focus:border-[#16813f] focus:outline-none focus:ring-2 focus:ring-[#16813f]/20"
+              className="w-full rounded-2xl border border-black/[0.08] bg-white p-3.5 text-sm text-[#1A1A2E] placeholder:text-[#A0A0AB] focus:border-[#F4651A] focus:outline-none focus:ring-2 focus:ring-[#F4651A]/20 transition-all"
             />
           </div>
 
           {/* Mobile Number */}
           <div className="mb-3.5">
-            <label htmlFor="checkout-phone" className="block text-xs font-bold text-[#17251c] mb-1.5">
+            <label htmlFor="checkout-phone" className="block text-xs font-bold text-[#1A1A2E] mb-1.5">
               Mobile number
             </label>
             <input
@@ -227,20 +227,19 @@ export function CheckoutModal() {
               required
               value={customerPhone}
               onChange={(e) => {
-                // Only allow digits
                 const val = e.target.value.replace(/[^0-9]/g, '');
                 if (val.length <= 10) setCustomerPhone(val);
               }}
               placeholder="10-digit mobile number"
               maxLength={10}
               pattern="[0-9]{10}"
-              className="w-full rounded-xl border border-[#d7e0d5] bg-white p-3 text-sm text-[#17251c] focus:border-[#16813f] focus:outline-none focus:ring-2 focus:ring-[#16813f]/20"
+              className="w-full rounded-2xl border border-black/[0.08] bg-white p-3.5 text-sm text-[#1A1A2E] placeholder:text-[#A0A0AB] focus:border-[#F4651A] focus:outline-none focus:ring-2 focus:ring-[#F4651A]/20 transition-all"
             />
           </div>
 
-          {/* Order Type — RESP-2: grid-cols-1 on very small, 3 cols on wider */}
+          {/* Order Type */}
           <div className="mb-3.5">
-            <label className="block text-xs font-bold text-[#17251c] mb-1.5">
+            <label className="block text-xs font-bold text-[#1A1A2E] mb-1.5">
               Order type
             </label>
             <div className="grid grid-cols-1 min-[400px]:grid-cols-3 gap-2">
@@ -249,10 +248,10 @@ export function CheckoutModal() {
                 return (
                   <label
                     key={type}
-                    className={`flex items-center justify-center gap-1.5 rounded-xl border p-2.5 text-xs font-bold cursor-pointer transition-all ${
+                    className={`flex items-center justify-center gap-1.5 rounded-2xl border p-2.5 text-xs font-bold cursor-pointer transition-all ${
                       checked
-                        ? 'border-[#16813f] bg-[#eef8e9] text-[#0c6e37]'
-                        : 'border-[#d8e1d7] bg-white text-[#3e5144] hover:bg-gray-50'
+                        ? 'border-[#F4651A] bg-[#FFF5EF] text-[#F4651A] shadow-xs'
+                        : 'border-black/[0.06] bg-white text-[#1A1A2E] hover:bg-neutral-50'
                     }`}
                   >
                     <input
@@ -261,7 +260,7 @@ export function CheckoutModal() {
                       value={type}
                       checked={checked}
                       onChange={() => setOrderType(type)}
-                      className="accent-[#16813f]"
+                      className="accent-[#F4651A]"
                     />
                     <span>{type}</span>
                   </label>
@@ -273,7 +272,7 @@ export function CheckoutModal() {
           {/* Dine-in Table Number */}
           {orderType === 'Dine-in' && (
             <div className="mb-3.5">
-              <label htmlFor="checkout-table" className="block text-xs font-bold text-[#17251c] mb-1.5">
+              <label htmlFor="checkout-table" className="block text-xs font-bold text-[#1A1A2E] mb-1.5">
                 Table number
               </label>
               <input
@@ -288,7 +287,7 @@ export function CheckoutModal() {
                 }}
                 placeholder="e.g. 4"
                 maxLength={3}
-                className="w-full rounded-xl border border-[#d7e0d5] bg-white p-3 text-sm text-[#17251c] focus:border-[#16813f] focus:outline-none focus:ring-2 focus:ring-[#16813f]/20"
+                className="w-full rounded-2xl border border-black/[0.08] bg-white p-3.5 text-sm text-[#1A1A2E] placeholder:text-[#A0A0AB] focus:border-[#F4651A] focus:outline-none focus:ring-2 focus:ring-[#F4651A]/20 transition-all"
               />
             </div>
           )}
@@ -296,7 +295,7 @@ export function CheckoutModal() {
           {/* Home Delivery Address */}
           {orderType === 'Home Delivery' && (
             <div className="mb-3.5">
-              <label htmlFor="checkout-address" className="block text-xs font-bold text-[#17251c] mb-1.5">
+              <label htmlFor="checkout-address" className="block text-xs font-bold text-[#1A1A2E] mb-1.5">
                 Delivery address
               </label>
               <textarea
@@ -307,14 +306,14 @@ export function CheckoutModal() {
                 onChange={(e) => setDeliveryAddress(e.target.value)}
                 placeholder="Full delivery address (house #, street, landmark)"
                 minLength={10}
-                className="w-full rounded-xl border border-[#d7e0d5] bg-white p-3 text-sm text-[#17251c] focus:border-[#16813f] focus:outline-none focus:ring-2 focus:ring-[#16813f]/20"
+                className="w-full rounded-2xl border border-black/[0.08] bg-white p-3.5 text-sm text-[#1A1A2E] placeholder:text-[#A0A0AB] focus:border-[#F4651A] focus:outline-none focus:ring-2 focus:ring-[#F4651A]/20 transition-all"
               />
             </div>
           )}
 
-          {/* Special Instructions — V-10: maxLength 500 */}
+          {/* Special Instructions */}
           <div className="mb-5">
-            <label htmlFor="checkout-notes" className="block text-xs font-bold text-[#17251c] mb-1.5">
+            <label htmlFor="checkout-notes" className="block text-xs font-bold text-[#1A1A2E] mb-1.5">
               Special instructions
             </label>
             <textarea
@@ -324,16 +323,16 @@ export function CheckoutModal() {
               onChange={(e) => setNotes(e.target.value)}
               placeholder="Less spicy, no onion, extra oregano, etc."
               maxLength={500}
-              className="w-full rounded-xl border border-[#d7e0d5] bg-white p-3 text-sm text-[#17251c] focus:border-[#16813f] focus:outline-none focus:ring-2 focus:ring-[#16813f]/20"
+              className="w-full rounded-2xl border border-black/[0.08] bg-white p-3.5 text-sm text-[#1A1A2E] placeholder:text-[#A0A0AB] focus:border-[#F4651A] focus:outline-none focus:ring-2 focus:ring-[#F4651A]/20 transition-all"
             />
-            <p className="mt-1 text-right text-[10px] text-[#68716b]">{notes.length}/500</p>
+            <p className="mt-1 text-right text-[10px] text-[#8E8E93]">{notes.length}/500</p>
           </div>
 
           {/* Submit Button */}
           <button
             type="submit"
             disabled={isSubmitting}
-            className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#19a857] py-3.5 text-center text-sm sm:text-base font-black text-white shadow-md hover:bg-[#158f4a] active:scale-[0.99] transition-all cursor-pointer disabled:opacity-75 disabled:cursor-not-allowed"
+            className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#F4651A] py-3.5 text-center text-sm sm:text-base font-black text-white shadow-[0_6px_20px_rgba(244,101,26,0.35)] hover:bg-[#E05A15] active:scale-[0.99] transition-all cursor-pointer disabled:opacity-75 disabled:cursor-not-allowed"
           >
             {isSubmitting ? (
               <>
@@ -348,7 +347,7 @@ export function CheckoutModal() {
             )}
           </button>
 
-          <p className="mt-3 text-center text-[11px] font-medium text-[#68716b]">
+          <p className="mt-3 text-center text-[11px] font-medium text-[#8E8E93]">
             Your order will be safely saved in database and opened in WhatsApp. Please press Send there to confirm.
           </p>
         </form>

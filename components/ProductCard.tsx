@@ -4,156 +4,171 @@ import React, { useState } from 'react';
 import { Product } from '../types';
 import { formatCurrency } from '../lib/utils';
 import { useCart } from '../context/CartContext';
-import { Plus, Minus } from 'lucide-react';
+import { Plus, Minus, Star, Heart } from 'lucide-react';
 
 interface ProductCardProps {
   product: Product;
+  onOpenDetails?: (product: Product) => void;
 }
 
-function getSizeAbbreviation(size: string): string {
-  const s = size.trim().toLowerCase();
-  if (s === 'small') return 'S';
-  if (s === 'medium') return 'M';
-  if (s === 'large') return 'L';
-  if (s === 'regular') return 'R';
-  if (s === 'half') return 'H';
-  if (s === 'full') return 'F';
-  if (size.length <= 3) return size.toUpperCase();
-  return size.charAt(0).toUpperCase();
+function resolveImageUrl(url?: string): string {
+  if (!url) return '';
+  if (url.startsWith('/')) {
+    const apiBase = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
+    return `${apiBase.replace(/\/api\/?$/, '')}${url}`;
+  }
+  return url;
 }
 
-export function ProductCard({ product }: ProductCardProps) {
+export function ProductCard({ product, onOpenDetails }: ProductCardProps) {
   const { addItem, changeQty, items } = useCart();
+  const [isLiked, setIsLiked] = useState(false);
+  const [imgError, setImgError] = useState(false);
+
   const hasSizes = !!(product.sizes && Object.keys(product.sizes).length > 0);
   const sizeKeys = hasSizes ? Object.keys(product.sizes!) : [];
+  const defaultSize = hasSizes ? sizeKeys[0] : undefined;
 
-  const [selectedSize, setSelectedSize] = useState<string>(
-    hasSizes ? sizeKeys[0] : ''
-  );
-
-  const currentSize = hasSizes ? selectedSize : undefined;
-  const currentKey = product.id + (currentSize ? `:${currentSize}` : '');
+  const currentKey = product.id + (defaultSize ? `:${defaultSize}` : '');
   const addedItem = items.find((item) => item.key === currentKey);
   const isAdded = !!addedItem;
   const addedQty = addedItem?.qty ?? 0;
 
-  const handleAdd = () => {
-    addItem(product, currentSize);
+  const handleAdd = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    addItem(product, defaultSize);
   };
 
-  const handleDecrease = () => {
+  const handleDecrease = (e: React.MouseEvent) => {
+    e.stopPropagation();
     if (addedQty > 0) {
       changeQty(currentKey, -1);
     }
   };
 
-  const currentPrice = hasSizes
-    ? (product.sizes?.[selectedSize] ?? 0)
+  const displayPrice = hasSizes
+    ? (product.sizes?.[defaultSize!] ?? 0)
     : (product.price ?? 0);
 
+  const rating = product.rating || 4.7;
+  const prepTime = product.prepTime || (product.cat === 'beverages' ? '5 min' : '20 min');
+  const calories = product.calories || (product.cat === 'beverages' ? '180 kcal' : '480 kcal');
+
   return (
-    <article className="flex flex-col justify-between rounded-[22px] border border-[#e8ece4] bg-white p-3 sm:p-3.5 shadow-[0_1px_4px_rgba(16,24,40,0.03)] transition-shadow hover:shadow-md">
-      <div>
-        {/* Header: Title and Category/Section Badge */}
-        <div className="flex items-start justify-between gap-1.5">
-          <h3 className="text-[13px] sm:text-[15px] font-black leading-tight text-[#17251c] tracking-tight line-clamp-2">
-            {product.name}
-          </h3>
-          {product.section && (
-            <span className="shrink-0 rounded-md bg-[#eef7f0] px-1.5 py-0.5 text-[9px] font-bold text-[#1a7f40] whitespace-nowrap">
-              {product.section}
-            </span>
-          )}
-        </div>
+    <article
+      onClick={() => onOpenDetails?.(product)}
+      className="group relative flex flex-col justify-between rounded-[28px] bg-white p-2.5 shadow-[0_4px_24px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_32px_rgba(0,0,0,0.08)] border border-black/[0.04] transition-all duration-300 cursor-pointer overflow-hidden"
+    >
+      {/* Top Image Squircle Container */}
+      <div className="relative w-full aspect-square rounded-[22px] bg-[#F4F7F2] p-2 flex items-center justify-center overflow-hidden">
+        {/* Floating Heart / Favorite Button */}
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsLiked(!isLiked);
+          }}
+          className={`absolute top-2 right-2 z-10 flex h-7 w-7 items-center justify-center rounded-full backdrop-blur-md shadow-sm transition-all active:scale-80 cursor-pointer ${
+            isLiked
+              ? 'bg-[#F4651A] text-white'
+              : 'bg-white/90 text-[#8E8E93] hover:text-[#F4651A]'
+          }`}
+          aria-label="Save to favorites"
+        >
+          <Heart className={`h-3.5 w-3.5 ${isLiked ? 'fill-white' : ''}`} />
+        </button>
 
-        {/* Description */}
-        {product.desc && (
-          <p className="mt-1 text-[11px] leading-snug text-[#68716b] line-clamp-2">
-            {product.desc}
-          </p>
-        )}
-
-        {/* Size Selection (S, M, L pills) */}
-        {hasSizes && product.sizes && (
-          <div className="mt-2.5 grid grid-cols-3 gap-1.5">
-            {sizeKeys.map((size) => {
-              const price = product.sizes![size];
-              const selected = size === selectedSize;
-
-              return (
-                <button
-                  key={size}
-                  type="button"
-                  onClick={() => setSelectedSize(size)}
-                  className={`rounded-xl border py-1.5 px-0.5 text-center transition-all cursor-pointer ${
-                    selected
-                      ? 'border-[#16813f] bg-[#16813f] text-white shadow-xs'
-                      : 'border-[#e5ede6] bg-[#f8faf7] text-[#17251c] hover:border-[#16813f]/40'
-                  }`}
-                >
-                  <div className={`text-[11px] font-black uppercase ${selected ? 'text-white' : 'text-[#17251c]'}`}>
-                    {getSizeAbbreviation(size)}
-                  </div>
-                  <div className={`mt-0.5 text-[10px] font-bold ${selected ? 'text-white/95' : 'text-[#505a52]'}`}>
-                    {formatCurrency(price)}
-                  </div>
-                </button>
-              );
-            })}
-          </div>
+        {/* Product Image */}
+        {product.image && !imgError ? (
+          <img
+            src={resolveImageUrl(product.image)}
+            alt={product.name}
+            onError={() => setImgError(true)}
+            className="w-full h-full object-cover rounded-[18px] transition-transform duration-500 group-hover:scale-105"
+            loading="lazy"
+          />
+        ) : (
+          <span className="text-5xl select-none filter drop-shadow-sm">
+            {product.cat === 'pizza' ? '🍕' : product.cat === 'burgers' ? '🍔' : product.cat === 'beverages' ? '🥤' : product.cat === 'sides' ? '🍟' : '🍽️'}
+          </span>
         )}
       </div>
 
-      {/* Bottom Area: Dedicated Price Row + Full-Width Action Button */}
-      <div className="mt-3 pt-1">
-        {/* Price & Size Info */}
-        <div className="flex items-center gap-1.5">
-          <span className="text-base sm:text-lg font-black text-[#107b3b] tracking-tight">
-            {formatCurrency(currentPrice)}
-          </span>
-          {hasSizes && selectedSize && (
-            <span className="text-xs font-semibold text-[#68716b]">
-              • {selectedSize}
+      {/* Content Section */}
+      <div className="flex flex-col flex-1 justify-between p-2 pt-2.5">
+        <div>
+          {/* Title & Star Rating */}
+          <div className="flex items-start justify-between gap-1">
+            <h3 className="text-[14px] font-extrabold text-[#1A1A2E] leading-snug tracking-tight line-clamp-1 group-hover:text-[#F4651A] transition-colors">
+              {product.name}
+            </h3>
+            <div className="flex items-center gap-0.5 text-[11px] font-black text-[#1A1A2E] shrink-0">
+              <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
+              <span>{rating}</span>
+            </div>
+          </div>
+
+          {/* Badges: Time & Calories */}
+          <div className="mt-1.5 flex items-center gap-1.5">
+            <span className="rounded-md bg-[#F2F2F7] px-1.5 py-0.5 text-[10px] font-bold text-[#8E8E93]">
+              {prepTime}
             </span>
-          )}
+            <span className="rounded-md bg-[#F2F2F7] px-1.5 py-0.5 text-[10px] font-bold text-[#8E8E93]">
+              {calories}
+            </span>
+          </div>
         </div>
 
-        {/* Full-width Add Button / Quantity Controls */}
-        {isAdded ? (
-          <div className="mt-2 flex w-full items-center justify-between rounded-full bg-[#16813f] px-2 py-1 text-white shadow-xs">
-            <button
-              type="button"
-              onClick={handleDecrease}
-              className="flex h-7 w-7 items-center justify-center rounded-full bg-white/20 text-white transition hover:bg-white/30 active:scale-90 cursor-pointer"
-              aria-label={`Decrease ${product.name} quantity`}
-            >
-              <Minus className="h-3.5 w-3.5" />
-            </button>
-
-            <span className="text-xs sm:text-sm font-black text-white">
-              {addedQty} in cart
+        {/* Bottom Row: Price & Add Button */}
+        <div className="mt-3 flex items-center justify-between gap-1">
+          <div>
+            <span className="text-[16px] font-black text-[#1A1A2E]">
+              {formatCurrency(displayPrice)}
             </span>
+            {hasSizes && (
+              <span className="ml-1 text-[9px] font-bold text-[#8E8E93]">
+                {defaultSize}
+              </span>
+            )}
+          </div>
 
+          {/* Add to Cart Organic Button */}
+          {isAdded ? (
+            <div
+              onClick={(e) => e.stopPropagation()}
+              className="flex items-center gap-0 rounded-full bg-[#F4651A] shadow-[0_2px_12px_rgba(244,101,26,0.3)]"
+            >
+              <button
+                type="button"
+                onClick={handleDecrease}
+                className="flex h-8 w-8 items-center justify-center rounded-full text-white transition-all active:scale-90 cursor-pointer hover:bg-[#E05A15]"
+                aria-label="Decrease quantity"
+              >
+                <Minus className="h-3 w-3 stroke-[3]" />
+              </button>
+              <span className="min-w-[20px] text-center text-[12px] font-black text-white">
+                {addedQty}
+              </span>
+              <button
+                type="button"
+                onClick={handleAdd}
+                className="flex h-8 w-8 items-center justify-center rounded-full text-white transition-all active:scale-90 cursor-pointer hover:bg-[#E05A15]"
+                aria-label="Increase quantity"
+              >
+                <Plus className="h-3 w-3 stroke-[3]" />
+              </button>
+            </div>
+          ) : (
             <button
               type="button"
               onClick={handleAdd}
-              className="flex h-7 w-7 items-center justify-center rounded-full bg-white/20 text-white transition hover:bg-white/30 active:scale-90 cursor-pointer"
-              aria-label={`Increase ${product.name} quantity`}
+              className="flex h-9 w-9 items-center justify-center rounded-2xl bg-[#F4651A] text-white shadow-[0_4px_12px_rgba(244,101,26,0.25)] hover:bg-[#E05A15] active:scale-90 transition-all cursor-pointer"
+              aria-label={`Add ${product.name}`}
             >
-              <Plus className="h-3.5 w-3.5" />
+              <Plus className="h-4 w-4 stroke-[3]" />
             </button>
-          </div>
-        ) : (
-          <button
-            type="button"
-            onClick={handleAdd}
-            className="mt-2 flex w-full items-center justify-center gap-1.5 rounded-full bg-[#16813f] py-2 text-xs sm:text-sm font-black text-white shadow-xs transition hover:bg-[#126e35] active:scale-[0.98] cursor-pointer"
-            aria-label={`Add ${product.name} to order`}
-          >
-            <span>Add</span>
-            <Plus className="h-3.5 w-3.5" />
-          </button>
-        )}
+          )}
+        </div>
       </div>
     </article>
   );

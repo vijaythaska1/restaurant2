@@ -1,11 +1,12 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter } from 'next/font/google';
+import { Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
 import { CartProvider } from '../context/CartContext';
 
-const inter = Inter({
+const plusJakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
   display: 'swap',
+  weight: ['200', '300', '400', '500', '600', '700', '800'],
 });
 
 export const metadata: Metadata = {
@@ -20,7 +21,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#0f7a3b',
+  themeColor: '#FAFAFA',
   width: 'device-width',
   initialScale: 1,
 };
@@ -31,8 +32,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.className}>
-      <body className="min-h-screen bg-[#f4f7ef] text-[#17251c] antialiased">
+    <html lang="en" className={plusJakarta.className}>
+      <body className="min-h-screen bg-[#FAFAFA] text-[#1A1A2E] antialiased">
         <CartProvider>{children}</CartProvider>
       </body>
     </html>

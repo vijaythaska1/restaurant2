@@ -13,17 +13,17 @@ export function BottomCartBar() {
   return (
     <aside
       aria-label="Current order summary"
-      className="fixed bottom-3 left-1/2 z-30 flex w-[calc(100%-24px)] max-w-[620px] -translate-x-1/2 items-center justify-between rounded-2xl bg-[#123c24] px-4 py-3 text-white shadow-2xl transition-all animate-in fade-in slide-in-from-bottom-3 duration-200"
+      className="fixed bottom-4 left-1/2 z-30 flex w-[calc(100%-32px)] max-w-[490px] -translate-x-1/2 items-center justify-between rounded-[22px] glass-dark px-5 py-3.5 text-white shadow-[0_8px_40px_rgba(0,0,0,0.25)] transition-all animate-in fade-in slide-in-from-bottom-4 duration-300"
     >
       <div className="flex items-center gap-3">
-        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/10 text-lime-300">
+        <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#F4651A] text-white shadow-md">
           <ShoppingBag className="h-5 w-5" />
         </div>
         <div>
-          <div className="text-xs sm:text-sm font-black text-white">
+          <div className="text-[13px] font-bold text-white/80">
             {totalCount} {totalCount === 1 ? 'item' : 'items'}
           </div>
-          <div className="text-sm sm:text-base font-extrabold text-lime-300">
+          <div className="text-[17px] font-extrabold text-white">
             {formatCurrency(totalAmount)}
           </div>
         </div>
@@ -31,7 +31,7 @@ export function BottomCartBar() {
 
       <button
         onClick={openCart}
-        className="flex items-center gap-1.5 rounded-xl bg-[#b9e84b] px-4 py-2 text-xs sm:text-sm font-black text-[#18311f] shadow-sm transition-transform hover:scale-105 active:scale-95 cursor-pointer"
+        className="flex items-center gap-2 rounded-2xl bg-[#F4651A] px-5 py-2.5 text-[13px] font-extrabold text-white shadow-[0_4px_16px_rgba(244,101,26,0.4)] transition-all hover:bg-[#E05A15] active:scale-95 cursor-pointer"
       >
         <span>View Cart</span>
         <ArrowRight className="h-4 w-4" />
