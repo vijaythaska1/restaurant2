@@ -11,11 +11,7 @@ import { ConfigService } from '@nestjs/config';
 import { IsNotEmpty, IsString } from 'class-validator';
 import { AppService } from './app.service';
 
-export class VerifyAdminDto {
-  @IsString()
-  @IsNotEmpty()
-  key: string;
-}
+
 
 @Controller()
 export class AppController {
@@ -31,7 +27,7 @@ export class AppController {
 
   @Post('admin/verify')
   @HttpCode(HttpStatus.OK)
-  verifyAdmin(@Body() body: VerifyAdminDto) {
+  verifyAdmin(@Body() body: any) {
     const configuredKey =
       this.configService?.get<string>('ADMIN_SECRET_KEY') ||
       process.env.ADMIN_SECRET_KEY ||
@@ -42,7 +38,7 @@ export class AppController {
         success: true,
         message: 'Admin access granted! Welcome back.',
       };    
-      
+
     }
 
     throw new UnauthorizedException({
